@@ -1,42 +1,21 @@
-'use client'
+import { columns } from "./column"
+import { DataTable } from "./data-table"
+import { getAllRooms } from '@/services/room';
 
-import React, { useState } from 'react';
 
-const AdminPage = () => {
+const AdminPage = async () => {
     
-    const [roomName, setRoomName] = useState<string>("");
-    const [data, setData] = useState(null);
-
-    const handleChange = async (e) => {
-        setRoomName(e.target.value);
-        //const roomName = e.target.value
-        console.log(`find room: `, roomName)
-        fetch(`/api/admin/room/${roomName}`)
-        .then(response => response.json())
-        .then(data => setData(data))
-        .catch(error => console.error('Error fetching data:', error));
-    }
-
+    const data = await getAllRooms()
+    // build an array of plain objects.
+    const rooms = data.map(room => {
+        return JSON.parse(JSON.stringify(room))
+    })
+    
     return (
-        <div>
-            Select the room
-            <input 
-                type="text" 
-                name="room-name" 
-                value={ roomName }
-                placeholder='Select Your Meeting Room'
-                onChange={ handleChange }
-            />
-
-        {data ? (
-        <p style={{ fontSize: '50px' }}>
-            Hello: {data.message}
-        </p>
-        ) : (
-        <p>Loading...</p>
-        )}
-        </div>
-    );
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={rooms} />
+      </div>
+    )
 };
 
 export default AdminPage;
