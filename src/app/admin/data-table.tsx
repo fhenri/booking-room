@@ -36,12 +36,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   onRoomDeleted: (roomId: string) => void
+  isDataLoading: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   onRoomDeleted,
+  isDataLoading,
 }: DataTableProps<TData, TValue>) {
 
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -49,7 +51,9 @@ export function DataTable<TData, TValue>({
     []
   )
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({
+      id: false,
+  })
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
@@ -75,9 +79,9 @@ export function DataTable<TData, TValue>({
       },
     },
     defaultColumn: {
-      size: 200,
+      size: 50,
       minSize: 50,
-      maxSize: 500,
+      maxSize: 200,
     },
     meta: {
       deleteRoom: async (roomId: string) => {
@@ -145,6 +149,17 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
+            {isDataLoading ? (
+              <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+            <div className="flex flex-col justify-center items-center h-32">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
+                <p className="ml-2 justify-center items-center">Loading...</p>
+              </div>
+              </TableCell>
+              </TableRow>
+          ) : (
+            <>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -165,6 +180,8 @@ export function DataTable<TData, TValue>({
                 </TableCell>
               </TableRow>
             )}
+          </>
+        )}
           </TableBody>
         </Table>
       </div>

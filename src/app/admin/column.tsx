@@ -2,24 +2,10 @@
 
 import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { ColumnDef } from "@tanstack/react-table"
 import { Room } from "@/types/room"
 
 export const columns: ColumnDef<Room>[] = [
-  {
-    accessorKey: "id",
-    header: "Generated Id",
-  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -40,8 +26,10 @@ export const columns: ColumnDef<Room>[] = [
     header: "Capacity",
   },
   {
-    accessorKey: "calendarId",
-    header: "Google Calendar Id",
+    accessorKey: "id",
+    header: "Calendar Id",
+    size: 50,
+    enableHiding: true,
   },
   {
     id: "actions",

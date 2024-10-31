@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
+import { createCalendar } from '@/services/google-calendar';
 import { setRoom, getAllRooms } from '@/services/room';
 import { Room } from '@/types/room';
-import { nanoid } from 'nanoid';
 
 export async function POST(request: NextRequest) {
-    const { name, capacity, calendarId } = await request.json();
 
-    if (!name || !capacity || !calendarId) {
+    const { name, capacity } = await request.json();
+    if (!name || !capacity) {
+        return NextResponse.json(
+            { error: 'Missing required fields' },
+            { status: 400 }
+        );
+    }
+
+    const calendarId = await createCalendar(name)
+    if (!calendarId) {
         return NextResponse.json(
             { error: 'Missing required fields' },
             { status: 400 }
@@ -14,10 +22,9 @@ export async function POST(request: NextRequest) {
     }
 
     const room: Room = {
-      id: nanoid(),
+      id: calendarId,
       name,
       capacity: parseInt(capacity, 10),
-      calendarId,
     };
 
     await setRoom(room);

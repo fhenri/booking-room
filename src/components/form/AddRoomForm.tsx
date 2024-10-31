@@ -1,14 +1,16 @@
 "use client"
 
 import * as React from 'react'
+import { ReloadIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Room } from "@/types/room"
 
 interface AddRoomFormProps {
     onRoomAdded: (formData: FormData) => Promise<Room | null>;
+    isLoading: boolean;
   }
   
-  const AddRoomForm: React.FC<AddRoomFormProps> = ({ onRoomAdded }) => {
+  const AddRoomForm: React.FC<AddRoomFormProps> = ({ onRoomAdded, isLoading }) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
@@ -35,9 +37,16 @@ interface AddRoomFormProps {
                         <input type="number" name="capacity" id="capacity" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="3" required />
                     </div>
                 </div>
+                {isLoading ? (
+                    <Button disabled className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center">
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                </Button>
+              ) : (
                 <Button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center">
                   Add room
                 </Button>
+                )}
             </form>
         </div>
       </section>

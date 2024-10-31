@@ -28,20 +28,19 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {  
     try {
-        const { name, capacity, calendarId } = await request.json();
+        const { name, capacity } = await request.json();
 
-        if (!name || !capacity || !calendarId) {
+        const thisRoom = await getRoom(params.id)
+        if (!thisRoom || Object.keys(thisRoom).length === 0) {  
             return NextResponse.json(
-                { message: 'Missing required fields' }, 
-                { status: HttpStatusCode.BadRequest }
-            );
-        }
-    
+                { message: `Room ${params.id} not found` }, 
+                { status: HttpStatusCode.NotFound });  
+        }  
+
         const room: Room = { 
             id: params.id, 
-            name, 
-            capacity: parseInt(capacity, 10), 
-            calendarId 
+            name: name ? name : thisRoom.name,
+            capacity: capacity ? parseInt(capacity, 10) : thisRoom.capacity 
         };
         await setRoom(room);
         return NextResponse.json({ room });  

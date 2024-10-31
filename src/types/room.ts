@@ -1,7 +1,6 @@
 export type Room = {
     id: string;
     name: string;
-    capacity: number;
-    calendarId: string;
+    capacity: number
   };
   

@@ -15,13 +15,17 @@ const AdminPage = () => {
   const data = await response.json(); 
   */
 
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [isAddingRoom, setIsAddingRoom] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const { toast } = useToast()
 
   const fetchRooms = async () => {
+    setIsDataLoading(true)
     const response = await fetch('/api/admin/room');
     const data = await response.json();
     setRooms(data.rooms);
+    setIsDataLoading(false)
   };
 
   useEffect(() => {
@@ -29,14 +33,12 @@ const AdminPage = () => {
   }, []);
 
   const handleRoomAdded = async (formData: FormData): Promise<Room | null> => {
-    
+    setIsAddingRoom(true);
     const roomData = {
       name: formData.get('name'),
-      calendarId: 'google-calendar-id',
       capacity: formData.get('capacity'),
     };
 
-    console.log(JSON.stringify(roomData))
     // Make the API call to create a new room
     const response = await fetch("/api/admin/room", {
       method: 'POST',
@@ -46,6 +48,7 @@ const AdminPage = () => {
       body: JSON.stringify(roomData),
     });
 
+    setIsAddingRoom(false)
     if (response.ok) {
         const newRoom = await response.json();
         setRooms((prevRooms) => [...prevRooms, newRoom.room]);
@@ -93,9 +96,9 @@ const AdminPage = () => {
         <h2 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
           Review Rooms
         </h2>
-        <DataTable columns={columns} data={rooms} onRoomDeleted={handleRoomDeleted} />
+        <DataTable columns={columns} data={rooms} onRoomDeleted={handleRoomDeleted} isDataLoading={isDataLoading}/>
         <Separator className="my-4" />
-        <AddRoomForm onRoomAdded={handleRoomAdded}/>
+        <AddRoomForm onRoomAdded={handleRoomAdded} isLoading={isAddingRoom}/>
       </div>
     )
 };
