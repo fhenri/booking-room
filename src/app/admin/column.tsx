@@ -2,7 +2,7 @@
 
 import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, Row } from "@tanstack/react-table"
 import { Room } from "@/types/room"
 
 export const columns: ColumnDef<Room>[] = [
@@ -23,7 +23,32 @@ export const columns: ColumnDef<Room>[] = [
   },
   {
     accessorKey: "capacity",
-    header: "Capacity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Capacity
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    filterFn: (row: Row<Room>, id, filters: string[]) => {
+      const roomCapacity = row.original.capacity
+      let isMatched = false;
+
+      filters.map(value => {
+        const values = value.split("-")
+        const min = parseInt(values[0])
+        const max = parseInt(values[1])
+        if (roomCapacity >= min && max && max >= roomCapacity) {
+          isMatched = true;
+        }
+      })
+
+      return isMatched;
+    },
   },
   {
     accessorKey: "id",

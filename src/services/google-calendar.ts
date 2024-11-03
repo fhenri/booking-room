@@ -14,6 +14,5 @@ export const createCalendar = async (calName: string): Promise<string | null | u
         requestBody: calendar
     })
     
-    console.log(response?.data)
     return response?.data.id
 };
