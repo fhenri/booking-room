@@ -20,6 +20,7 @@ export const columns: ColumnDef<Room>[] = [
       )
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    sortingFn: (rowA: Row<Room>, rowB: Row<Room>) => rowA.original.name.localeCompare(rowB.original.name),
   },
   {
     accessorKey: "capacity",
@@ -48,6 +49,11 @@ export const columns: ColumnDef<Room>[] = [
       })
 
       return isMatched;
+    },
+    sortingFn: (rowA, rowB) => {
+      const capacityA = rowA.original.capacity;
+      const capacityB = rowB.original.capacity;
+      return capacityA - capacityB; 
     },
   },
   {
