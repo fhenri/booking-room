@@ -1,9 +1,18 @@
 "use client"
 
-import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react"
+import { RowData } from "@tanstack/react-table";
+import { ArrowUpDown, CalendarDays, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ColumnDef, Row } from "@tanstack/react-table"
 import { Room } from "@/types/room"
+import Link from "next/link"
+
+//https://github.com/TanStack/table/discussions/5406
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    deleteRoom: (id: string) => void;
+  }
+}
 
 export const columns: ColumnDef<Room>[] = [
   {
@@ -63,7 +72,22 @@ export const columns: ColumnDef<Room>[] = [
     enableHiding: true,
   },
   {
-    id: "actions",
+    id: "view",
+    enableHiding: false,
+    //cell: ({ row }) => {
+    cell: function Cell({ row }) {
+      return (
+        <Link href={{
+                pathname: '/admin/schedule',
+                query: { room: row.original.id },
+              }}>
+                <CalendarDays className="ml-2 h-4 w-4"/>
+        </Link>
+      )
+    },
+  },
+  {
+    id: "delete",
     enableHiding: false,
     //cell: ({ row }) => {
     cell: function Cell({ row, table}) {
@@ -74,7 +98,8 @@ export const columns: ColumnDef<Room>[] = [
       };
   
       return (
-        <Trash className="ml-2 h-4 w-4" onClick={handleDelete}/>
+        <Trash className="block py-2 px-3 md:p-0 text-gray-400 ml-2 h-4 w-4" 
+               onClick={handleDelete}/>
       )
     },
   },

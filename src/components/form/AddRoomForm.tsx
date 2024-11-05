@@ -38,9 +38,9 @@ interface AddRoomFormProps {
                     </div>
                 </div>
                 {isLoading ? (
-                    <Button disabled className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center">
-                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
+                <Button disabled className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center">
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
                 </Button>
               ) : (
                 <Button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center">

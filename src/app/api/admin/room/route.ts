@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createCalendar } from '@/services/google-calendar';
+import { createCalendar } from '@/services/calendar';
 import { setRoom, getAllRooms } from '@/services/room';
 import { Room } from '@/types/room';
 

@@ -1,7 +1,8 @@
 import { initGoogleCalendar } from '@/lib/google';
-import { calendar_v3 as googleCalendar } from "@googleapis/calendar";
 
-export const createCalendar = async (calName: string): Promise<string | null | undefined> => {
+export const createCalendar = async (
+    calName: string
+): Promise<string | null | undefined> => {
 
     const googleClient = await initGoogleCalendar();
 

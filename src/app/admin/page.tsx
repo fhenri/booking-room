@@ -9,12 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Room } from "@/types/room"
 
 const AdminPage = () => {
-    
-  /*
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/room`);
-  const data = await response.json(); 
-  */
-
+  
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [isAddingRoom, setIsAddingRoom] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -89,7 +84,6 @@ const AdminPage = () => {
       })
     }
   };
-
 
     return (
       <div className="container mx-auto py-10">
