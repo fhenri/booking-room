@@ -1,9 +1,14 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
 import { createCalendar } from '@/services/calendar';
 import { setRoom, getAllRooms } from '@/services/room';
 import { Room } from '@/types/room';
 
-export async function POST(request: NextRequest) {
+export const POST = auth(async (request) => {
+
+    if (!request.auth) {
+        return Response.json({ message: "Not authenticated" }, { status: 401 })
+    }
 
     const { name, capacity } = await request.json();
     if (!name || !capacity) {
@@ -33,12 +38,17 @@ export async function POST(request: NextRequest) {
         { status: 201 }
     );
 
-}
+})
 
-export async function GET() {
+export const GET = auth(async (request) => {
+
+    if (!request.auth) {
+        return Response.json({ message: "Not authenticated" }, { status: 401 })
+    }
+        
     const rooms = await getAllRooms();
     return NextResponse.json(
         { rooms },
         { status: 200 }
     )
-}
+})

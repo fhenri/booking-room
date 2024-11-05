@@ -1,17 +1,16 @@
 import { HttpStatusCode } from 'axios';  
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
 import { getRoom, setRoom, deleteRoom } from '@/services/room';
 import { Room } from '@/types/room';
 
-export async function GET(
-    _: NextRequest, 
-    { params }: { params: { id: string } }
-) {
-    try {  
-        const room = await getRoom(params.id);  
+export const GET = auth(async (request, params) => {
+    try {
+        const roomId = params.params?.id as string
+        const room = await getRoom(roomId);  
         if (!room || Object.keys(room).length === 0) {  
             return NextResponse.json(
-                { message: `Room ${params.id} not found` }, 
+                { message: `Room ${roomId} not found` }, 
                 { status: HttpStatusCode.NotFound });  
         }  
         return NextResponse.json({ room });  
@@ -21,53 +20,58 @@ export async function GET(
             { status: HttpStatusCode.BadRequest }
         );  
     }  
-}  
+})
   
-export async function PUT(
-    request: NextRequest, 
-    { params }: { params: { id: string } }
-) {  
+export const PUT = auth(async (request, params) => {
     try {
         const { name, capacity } = await request.json();
+        const roomId = params.params?.id as string
 
-        const thisRoom = await getRoom(params.id)
+        const thisRoom = await getRoom(roomId)
         if (!thisRoom || Object.keys(thisRoom).length === 0) {  
             return NextResponse.json(
-                { message: `Room ${params.id} not found` }, 
+                { message: `Room ${roomId} not found` }, 
                 { status: HttpStatusCode.NotFound });  
         }  
 
         const room: Room = { 
-            id: params.id, 
+            id: roomId, 
             name: name ? name : thisRoom.name,
             capacity: capacity ? parseInt(capacity, 10) : thisRoom.capacity 
         };
         await setRoom(room);
-        return NextResponse.json({ room });  
-
+        return NextResponse.json({ room });
     } catch (error) {  
         return NextResponse.json(
             { message: error }, 
             { status: HttpStatusCode.BadRequest }
         );
     }  
-}  
-  
-export async function DELETE(
-    _: NextRequest, 
-    { params }: { params: { id: string } }
-) {  
-    try {  
-        const room = await getRoom(params.id);  
-        if (!room || Object.keys(room).length === 0) {  
+})
+
+export const DELETE = auth(async (request, params) => {
+    try {
+        const roomId = params.params?.id as string
+
+        if (!roomId) {
             return NextResponse.json(
-                { message: `Room ${params.id} not found` }, 
+                { message: "Missing Room Identifier" }, 
+                { status: HttpStatusCode.NotFound }
+            );  
+        }
+
+        const room = await getRoom(roomId);  
+        if (!room || Object.keys(room).length === 0) {  
+
+            return NextResponse.json(
+                { message: `Room ${roomId} not found` }, 
                 { status: HttpStatusCode.NotFound }
             );  
         }  
-        await deleteRoom(params.id);  
+
+        await deleteRoom(roomId);  
         return NextResponse.json(
-            { message: `Product ${params.id} has been deleted` },
+            { message: `Product ${roomId} has been deleted` },
         );
     } catch (error) {  
         console.error("cannot delete room:", error)
@@ -76,4 +80,4 @@ export async function DELETE(
             { status: HttpStatusCode.BadRequest }
         );  
     }  
-}
+})

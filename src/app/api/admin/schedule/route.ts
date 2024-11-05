@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
 import { listEvent, deleteEvent } from '@/services/event';
 
-export async function GET (request: NextRequest) {
+export const GET = auth(async (request) => {
     const searchParams = request.nextUrl.searchParams
     const roomId = searchParams.get("roomId")
 
@@ -18,9 +19,9 @@ export async function GET (request: NextRequest) {
         { schedules },
         { status: 200 }
     )
-}
+})
 
-export async function DELETE (request: NextRequest) {
+export const DELETE = auth(async (request) => {
     const searchParams = request.nextUrl.searchParams
     const roomId = searchParams.get("roomId")
     const eventId = searchParams.get("eventId")
@@ -37,4 +38,4 @@ export async function DELETE (request: NextRequest) {
         { schedules },
         { status: 200 }
     )
-}
+})
