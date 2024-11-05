@@ -11,7 +11,8 @@ export const initGoogleCalendar = async () => {
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_email: process.env.GOOGLE_CLIENT_EMAIL,
       project_id: process.env.GOOGLE_PROJECT_ID,
-      private_key: process.env.GOOGLE_PRIVATE_KEY      
+      // FIX netlify https://stackoverflow.com/a/67516991/4296747
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.split("\\n").join("\n")
     }
     const auth = new google.auth.GoogleAuth({
       credentials: credentials,
