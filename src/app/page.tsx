@@ -138,15 +138,15 @@ export default function MeetingInviteForm() {
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="date">Date</Label>
-            <Input id="date" type="date" onChange={(e) => checkAvailableRoom(guests.length)} required />
+            <Input id="date" type="date" onChange={() => checkAvailableRoom(guests.length)} required />
           </div>
           <div className="space-y-2">
             <Label htmlFor="timeFrom">Time From</Label>
-            <Input id="timeFrom" type="time" onChange={(e) => checkAvailableRoom(guests.length)} required />
+            <Input id="timeFrom" type="time" onChange={() => checkAvailableRoom(guests.length)} required />
           </div>
           <div className="space-y-2">
             <Label htmlFor="timeTo">Time To</Label>
-            <Input id="timeTo" type="time" onChange={(e) => checkAvailableRoom(guests.length)} required />
+            <Input id="timeTo" type="time" onChange={() => checkAvailableRoom(guests.length)} required />
           </div>
         </div>
         <div className="space-y-2">
@@ -208,7 +208,7 @@ export default function MeetingInviteForm() {
                 </div>
                 ) : (rooms && rooms.map((room) => (
                   <SelectItem key={room.id} value={room.id}>
-                    { room.name.cap }
+                    { room.name }
                   </SelectItem>))
                 )}                
               </SelectGroup>

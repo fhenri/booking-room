@@ -1,5 +1,4 @@
 import { google } from "googleapis";
-import { calendar_v3 as googleCalendar } from "@googleapis/calendar";
 
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",

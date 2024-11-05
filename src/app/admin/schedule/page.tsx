@@ -1,6 +1,7 @@
 "use client"
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Suspense} from "react";
+import { calendar_v3 as googleCalendar } from "@googleapis/calendar";
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -38,11 +39,11 @@ const CalendarView = (
         });
         const response = await fetch(`/api/admin/schedule?${params}`);
         const data = await response.json();
-        const filteredEvents = data.schedules.map((schedule: any) => ({
+        const filteredEvents = data.schedules.map((schedule: googleCalendar.Schema$Event) => ({
             id: schedule.id,
             text: schedule.summary,
-            start: schedule.start.dateTime,
-            end: schedule.end.dateTime
+            start: schedule.start?.dateTime,
+            end: schedule.end?.dateTime
         }));
         setEvents(filteredEvents);
         setIsDataLoading(false)
@@ -68,9 +69,12 @@ const CalendarView = (
         });
         const response = await fetch(`/api/admin/schedule?${params}`, {
             method: 'DELETE',
-          });
+        });
 
-        setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+        if (response.ok) {
+            setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+        }
+
         setIsDataLoading(false)
     };
 
@@ -127,7 +131,7 @@ const DatePicker = (
     )
 }
 
-const SchedulePage = () => {
+const ScheduleForm = () => {
     const searchParam = useSearchParams();
     const roomId = searchParam.get("room")!;
     const [date, setDate] = React.useState<Date>(new Date())
@@ -147,5 +151,13 @@ const SchedulePage = () => {
         </div>
     )
 }
+
+const SchedulePage = () => {
+    return (
+        <Suspense>
+            <ScheduleForm />
+        </Suspense>
+    )
+}    
 
 export default SchedulePage

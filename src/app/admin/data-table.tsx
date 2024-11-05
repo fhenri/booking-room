@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-table"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

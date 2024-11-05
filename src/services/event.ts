@@ -40,6 +40,8 @@ export const createEvent = async (
     const startTime = parse(`${date} ${timeFrom}`, 'yyyy-MM-dd HH:mm', new Date());
     const endTime = parse(`${date} ${timeTo}`, 'yyyy-MM-dd HH:mm', new Date());
 
+    console.log(guests)
+    
     const event = {
       summary: title,
       description: description,
