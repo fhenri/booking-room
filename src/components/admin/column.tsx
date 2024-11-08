@@ -52,7 +52,7 @@ export const columns: ColumnDef<Room>[] = [
         const values = value.split("-")
         const min = parseInt(values[0])
         const max = parseInt(values[1])
-        if (roomCapacity >= min && max && max >= roomCapacity) {
+        if (roomCapacity >= min && (isNaN(max) || max >= roomCapacity)) {
           isMatched = true;
         }
       })
