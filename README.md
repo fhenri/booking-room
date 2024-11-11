@@ -21,7 +21,7 @@ As an admin I can:
 # Technical Corner
 
 The development of the page is explained in a series of medium article:
-- part I discussed the API and admin 
+- [part I](https://medium.com/@frederic.henri/building-a-fullstack-booking-meeting-room-app-with-nextjs-part-i-2393a80a70d0) discussed the API and admin page component 
 
 ## Stack
 
