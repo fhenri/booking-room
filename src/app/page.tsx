@@ -135,8 +135,8 @@ export default function MeetingInviteForm() {
           <Label htmlFor="title">Title</Label>
           <Input id="title" placeholder="Enter Meeting Title" required />
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="space-y-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="col-span-2 space-y-2">
             <Label htmlFor="date">Date</Label>
             <Input id="date" type="date" onChange={() => checkAvailableRoom(guests.length)} required />
           </div>
@@ -160,7 +160,7 @@ export default function MeetingInviteForm() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="flex space-x-2">
+                  <TableHead className="flex space-x-2 items-center">
                     <Input
                         id="guests"
                         type="email"
@@ -168,9 +168,8 @@ export default function MeetingInviteForm() {
                         value={newGuest}
                         onChange={(e) => setNewGuest(e.target.value)}
                       />
-                    <Button type="submit" variant="secondary" onClick={addGuest}>Add</Button>
+                  <Button type="submit" variant="secondary" onClick={addGuest}>Add</Button>
                   </TableHead>
-                  <TableHead className="w-[100px]"></TableHead>
                 </TableRow>
               </TableHeader>
             </Table>

@@ -71,7 +71,7 @@ export const DELETE = auth(async (request, params) => {
 
         await deleteRoom(roomId);  
         return NextResponse.json(
-            { message: `Product ${roomId} has been deleted` },
+            { message: `Room ${roomId} has been deleted` },
         );
     } catch (error) {  
         console.error("cannot delete room:", error)

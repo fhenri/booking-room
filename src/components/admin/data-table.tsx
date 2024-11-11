@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,17 +15,17 @@ import {
   getFacetedMinMaxValues,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
-import { ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -33,32 +33,32 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  onRoomDeleted: (roomId: string) => void
-  isDataLoading: boolean
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  onRoomDeleted: (roomId: string) => void;
+  isDataLoading: boolean;
 }
 
 const capacityFilterList = [
   {
     label: "1 - 5",
-    value: "1-5"
+    value: "1-5",
   },
   {
     label: "5 - 15",
-    value: "5-15"
+    value: "5-15",
   },
   {
     label: "15 - 50",
-    value: "15-50"
+    value: "15-50",
   },
   {
     label: "50+",
-    value: "50"
+    value: "50",
   },
 ];
 
@@ -68,16 +68,15 @@ export function DataTable<TData, TValue>({
   onRoomDeleted,
   isDataLoading,
 }: DataTableProps<TData, TValue>) {
-
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       id: false,
-  })
-  const [rowSelection, setRowSelection] = React.useState({})
+    });
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -113,8 +112,8 @@ export function DataTable<TData, TValue>({
       deleteRoom: async (roomId: string) => {
         await onRoomDeleted(roomId);
       },
-    }
-  })
+    },
+  });
 
   return (
     <div className="w-full">
@@ -156,7 +155,7 @@ export function DataTable<TData, TValue>({
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -176,7 +175,7 @@ export function DataTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -184,37 +183,48 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {isDataLoading ? (
               <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-            <div className="flex flex-col justify-center items-center h-32">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
-                <p className="ml-2 justify-center items-center">Loading...</p>
-              </div>
-              </TableCell>
-              </TableRow>
-          ) : (
-            <>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  <div className="flex flex-col justify-center items-center h-32">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
+                    <p className="ml-2 justify-center items-center">
+                      Loading...
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
+            ) : (
+              <>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
             )}
-          </>
-        )}
           </TableBody>
         </Table>
       </div>
@@ -242,5 +252,5 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
     </div>
-  )
+  );
 }

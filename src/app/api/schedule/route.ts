@@ -20,7 +20,7 @@ export async function GET (request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     
-    const { roomId, title, description, date, timeFrom, timeTo } = await request.json();
+    const { roomId, title, description, date, timeFrom, timeTo, guests } = await request.json();
     const event = await createEvent(
         roomId,
         title, 
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         date,
         timeFrom,
         timeTo,
-        ['fred@fred.com']
+        guests
     )
 
     return NextResponse.json(
