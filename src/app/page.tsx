@@ -135,7 +135,7 @@ export default function MeetingInviteForm() {
           <Label htmlFor="title">Title</Label>
           <Input id="title" placeholder="Enter Meeting Title" required />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="col-span-2 space-y-2">
             <Label htmlFor="date">Date</Label>
             <Input id="date" type="date" onChange={() => checkAvailableRoom(guests.length)} required />

@@ -1,5 +1,5 @@
 import { signIn, signOut } from "@/lib/auth"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 
 export function SignIn({
   provider,
