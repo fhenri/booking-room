@@ -21,7 +21,9 @@ As an admin I can:
 # Technical Corner
 
 The development of the page is explained in a series of medium article:
-- [part I](https://medium.com/@frederic.henri/building-a-fullstack-booking-meeting-room-app-with-nextjs-part-i-2393a80a70d0) discussed the API and admin page component 
+- [part I](https://medium.com/@frederic.henri/building-a-fullstack-booking-meeting-room-app-with-nextjs-part-i-2393a80a70d0) discuss the API and admin page component, setting up Redis
+- [part II](https://medium.com/@frederic.henri/building-a-fullstack-booking-meeting-room-app-with-nextjs-part-ii-4b536845cd2f) discuss the integration with Google Calendar, the end user form and improvement of admin page.
+- [part II]() discuss how to setup authentication using [Auth.js](https://authjs.dev) and a [Google OAuth provider](https://authjs.dev/getting-started/providers/google).
 
 ## Stack
 
